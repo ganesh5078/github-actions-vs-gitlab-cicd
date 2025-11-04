@@ -22,7 +22,7 @@ jobs:
         mkdir _site
         
         # 2. Copy the HTML file into the directory, renaming it to index.html
-        cp $GITHUB_WORKSPACE/github_vs_gitlab_cicd.html _site/index.html
+        cp github_vs_gitlab_cicd.html _site/index.html
         
         # 3. Add .nojekyll file to ensure GitHub Pages serves the HTML as-is
         touch _site/.nojekyll
