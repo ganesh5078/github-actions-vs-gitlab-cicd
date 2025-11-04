@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Actions vs. GitLab CI/CD: The Visual Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Chosen Palette: Energetic & Playful -->
+    <!-- Application Structure Plan: The infographic is structured as a top-to-bottom narrative flow. It starts with a high-level "What is CI/CD?" intro, then immediately presents the core philosophical difference (Marketplace vs. All-in-One) as this is the main takeaway. It then drills down into the conceptual workflows (how they operate) and follows with quantitative data (Bar chart for free minutes) and qualitative data (Radar chart for features). Finally, it shows practical code (YAML side-by-side) and provides a clear decision guide. This structure is chosen for usability, moving from the most abstract concept to the most concrete, actionable advice. -->
+    <!-- Visualization & Content Choices: 
+        - Core Philosophy (Marketplace vs. All-in-One): Goal: Organize. Method: HTML/CSS diagram (styled divs & flexbox). Justification: Clearly visualizes the "composable" vs. "integrated" nature. NO SVG/Mermaid.
+        - Conceptual Workflows (GitHub vs. GitLab): Goal: Organize. Method: HTML/CSS flowchart (styled divs & Unicode arrows). Justification: Simple, clear representation of process hierarchy. NO SVG/Mermaid.
+        - Free Tier Minutes: Goal: Compare. Method: Bar Chart (Chart.js). Justification: Direct, easy-to-read comparison of quantitative data. Chart.js/Canvas.
+        - Qualitative Comparison (Features, Community, etc.): Goal: Compare. Method: Radar Chart (Chart.js). Justification: Excellent for comparing multiple qualitative attributes on a single graph, giving each tool a visual "shape." Chart.js/Canvas.
+        - YAML Configuration: Goal: Compare. Method: Side-by-side HTML `<pre>` tags. Justification: Shows the practical code difference directly. HTML/CSS.
+        - Decision Guide: Goal: Organize. Method: HTML/CSS 2-column list. Justification: Clear, scannable, actionable advice. HTML/CSS.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F2F2F2;
+            color: #0B4F6C;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .flow-arrow {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #0B4F6C;
+            line-height: 1;
+        }
+        .philosophy-box {
+            border: 2px solid #0B4F6C;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            min-height: 200px;
+        }
+        .philosophy-item {
+            background-color: #E0F7FA;
+            border: 1px solid #01BAEF;
+            color: #0B4F6C;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        .philosophy-item-gitlab {
+            background-color: #FFF3E0;
+            border: 1px solid #F9A03F;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold" style="color: #0B4F6C;">GitHub Actions vs. GitLab CI/CD</h1>
+            <p class="mt-2 text-xl md:text-2xl font-semibold" style="color: #0B4F6C;">The Ultimate Visual Guide</p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-4 md:p-8 space-y-12">
+
+        <section class="bg-white rounded-lg shadow-md p-6 md:p-8">
+            <h2 class="text-3xl font-bold text-center mb-4">What is CI/CD? A 30-Second Guide</h2>
+            <p class="text-lg text-center max-w-3xl mx-auto">CI/CD (Continuous Integration & Continuous Deployment) is the engine of modern software. It's an automated process that builds, tests, and deploys your code, allowing teams to release features faster and more reliably.</p>
+        </section>
+
+        <section>
+            <h2 class="text-3xl font-bold text-center mb-6">The Core Philosophy: How They Think</h2>
+            <p class="text-lg text-center max-w-3xl mx-auto mb-8">The biggest difference isn't the code; it's the philosophy. GitHub builds a flexible "marketplace" while GitLab builds an "all-in-one" platform.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-2xl font-bold text-center mb-4" style="color: #01BAEF;">GitHub Actions: The Marketplace</h3>
+                    <p class="text-center mb-6">Build your pipeline by plugging together "Actions" from a massive community marketplace. Highly flexible and composable.</p>
+                    <div class="philosophy-box flex flex-col items-center justify-center">
+                        <div class="font-bold text-xl mb-4 p-4 rounded-lg" style="background-color: #01BAEF; color: white;">Your Repository</div>
+                        <div class="flow-arrow">&darr;</div>
+                        <div class="font-bold text-xl my-4">GitHub Marketplace</div>
+                        <div class="flex flex-wrap gap-2 justify-center">
+                            <span class="philosophy-item">Deploy to AWS</span>
+                            <span class="philosophy-item">Scan for Secrets</span>
+                            <span class="philosophy-item">Send Slack Alert</span>
+                            <span class="philosophy-item">Build Docker Image</span>
+                            <span class="philosophy-item">...and 10,000+ more</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-2xl font-bold text-center mb-4" style="color: #F9A03F;">GitLab CI/CD: The All-in-One</h3>
+                    <p class="text-center mb-6">Everything you need is built-in from the start. A single, unified platform for the entire DevOps lifecycle.</p>
+                    <div class="philosophy-box flex flex-col items-center justify-center p-4" style="border-color: #F9A03F;">
+                        <div class="font-bold text-2xl mb-4 p-4 rounded-lg w-full text-center" style="background-color: #F9A03F; color: white;">GitLab Platform</div>
+                        <div class="grid grid-cols-2 gap-2 w-full text-center">
+                            <span class="philosophy-item philosophy-item-gitlab">Code Repository</span>
+                            <span class="philosophy-item philosophy-item-gitlab">CI/CD Pipeline</span>
+                            <span class="philosophy-item philosophy-item-gitlab">Package Registry</span>
+                            <span class="philosophy-item philosophy-item-gitlab">Security Scanning</span>
+                            <span class="philosophy-item philosophy-item-gitlab">Issue Tracking</span>
+                            <span class="philosophy-item philosophy-item-gitlab">Monitoring</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-3xl font-bold text-center mb-6">How They Work: Conceptual Flow</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-2xl font-bold text-center mb-6" style="color: #01BAEF;">GitHub Actions Flow</h3>
+                    <div class="flex flex-col items-center space-y-2">
+                        <div class="bg-gray-100 rounded-lg p-3 font-semibold text-lg shadow-sm">Event (e.g., 'push')</div>
+                        <div class="flow-arrow">&darr;</div>
+                        <div class="font-bold text-xl" style="color: #01BAEF;">Workflow</div>
+                        <p class="text-sm text-gray-600">The main .yml file</p>
+                        <div class="flow-arrow">&darr;</div>
+                        <div class="font-bold text-xl">Job(s)</div>
+                        <p class="text-sm text-gray-600">Run in parallel by default</p>
+                        <div class="flow-arrow">&darr;</div>
+                        <div class="font-bold text-xl">Step(s)</div>
+                        <p class="text-sm text-gray-600">A command or an "Action"</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-2xl font-bold text-center mb-6" style="color: #F9A03F;">GitLab CI/CD Flow</h3>
+                    <div class="flex flex-col items-center space-y-2">
+                        <div class="font-bold text-xl" style="color: #F9A03F;">Pipeline</div>
+                        <p class="text-sm text-gray-600">The entire process</p>
+                        <div class="flow-arrow">&darr;</div>
+                        <div class="font-bold text-xl">Stage(s)</div>
+                        <p class="text-sm text-gray-600">e.g., 'build', 'test', 'deploy' (Run in order)</p>
+                        <div class="flow-arrow">&darr;</div>
+                        <div class="font-bold text-xl">Job(s)</div>
+                        <p class="text-sm text-gray-600">Jobs in the same stage run in parallel</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-3xl font-bold text-center mb-6">At a Glance: Feature Comparison</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-2xl font-bold text-center mb-4">Qualitative Comparison</h3>
+                    <p class="text-center text-sm text-gray-600 mb-4">A subjective score (out of 10) based on common perceptions. This chart shows the "shape" of each tool's strengths.</p>
+                    <div class="chart-container">
+                        <canvas id="radarChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-2xl font-bold text-center mb-4">Free Tier CI/CD Minutes (Per Month)</h3>
+                    <p class="text-center text-sm text-gray-600 mb-4">This shows the free minutes provided on each platform's base plan. GitHub's free minutes are for private repos (public is free).</p>
+                    <div class="chart-container">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <h2 class="text-3xl font-bold text-center mb-6">Key Difference: Configuration</h2>
+            <p class="text-lg text-center max-w-3xl mx-auto mb-8">Both use YAML, but with different structures. GitHub uses multiple files and `uses:` to import actions. GitLab uses a single file with `stages:` to control flow.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <div class="bg-white rounded-lg shadow-md p-4">
+                    <h3 class="text-2xl font-bold text-center mb-4" style="color: #01BAEF;">GitHub Actions</h3>
+                    <p class="text-sm text-center mb-2">Located in `.github/workflows/ci.yml`</p>
+                    <pre class="bg-gray-800 text-white p-4 rounded-lg overflow-x-auto text-sm">
+<code>name: Build and Test
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Use Node.js 20
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install and Test
+      run: |
+        npm ci
+        npm test
+</code></pre>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-4">
+                    <h3 class="text-2xl font-bold text-center mb-4" style="color: #F9A03F;">GitLab CI/CD</h3>
+                    <p class="text-sm text-center mb-2">Located at root: `.gitlab-ci.yml`</p>
+                    <pre class="bg-gray-800 text-white p-4 rounded-lg overflow-x-auto text-sm">
+<code>image: node:20
+
+stages:
+  - build
+  - test
+
+build-job:
+  stage: build
+  script:
+    - npm ci
+  artifacts:
+    paths:
+      - node_modules/
+
+test-job:
+  stage: test
+  script:
+    - npm test
+  dependencies:
+    - build-job
+</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-3xl font-bold text-center mb-6">The Decision Guide: Which is for You?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <div class="bg-white rounded-lg shadow-md p-6 border-t-4" style="border-color: #01BAEF;">
+                    <h3 class="text-2xl font-bold mb-4">✅ Choose GitHub Actions if...</h3>
+                    <ul class="list-disc list-inside space-y-2 text-lg">
+                        <li>Your code is already on GitHub.</li>
+                        <li>You have an open-source project.</li>
+                        <li>You love flexibility and a huge community marketplace.</li>
+                        <li>You want to trigger workflows from non-code events (issues, comments).</li>
+                        <li>You prefer to build your own CI pipeline from small, composable parts.</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6 border-t-4" style="border-color: #F9A03F;">
+                    <h3 class="text-2xl font-bold mb-4">✅ Choose GitLab CI/CD if...</h3>
+                    <ul class="list-disc list-inside space-y-2 text-lg">
+                        <li>You want a single, all-in-one platform for the entire DevOps lifecycle.</li>
+                        <li>You value powerful, built-in features (security, registry) from day one.</li>
+                        <li>You are starting a new company and want a unified toolchain.</li>
+                        <li>You prefer a "convention over configuration" approach.</li>
+                        <li>You need features like "Review Apps" out of the box.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-8 mt-8">
+        <p class="text-gray-600">Infographic generated based on "GitHub Actions vs. GitLab CI/CD" blog post.</p>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join(' ');
+                } else {
+                    return label;
+                }
+            };
+
+            const radarCtx = document.getElementById('radarChart').getContext('2d');
+            new Chart(radarCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Built-in Features', 'Marketplace', 'Flexibility', 'Ease of Start', 'Community'],
+                    datasets: [
+                        {
+                            label: 'GitHub Actions',
+                            data: [4, 10, 9, 8, 10],
+                            backgroundColor: 'rgba(1, 186, 239, 0.2)',
+                            borderColor: '#01BAEF',
+                            pointBackgroundColor: '#01BAEF',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: '#01BAEF',
+                            borderWidth: 3
+                        },
+                        {
+                            label: 'GitLab CI/CD',
+                            data: [9, 2, 7, 9, 8],
+                            backgroundColor: 'rgba(249, 160, 63, 0.2)',
+                            borderColor: '#F9A03F',
+                            pointBackgroundColor: '#F9A03F',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: '#F9A03F',
+                            borderWidth: 3
+                        }
+                    ]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                title: tooltipTitleCallback
+                            }
+                        }
+                    },
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: '#B0BEC5'
+                            },
+                            grid: {
+                                color: '#CFD8DC'
+                            },
+                            pointLabels: {
+                                font: {
+                                    size: 13,
+                                    weight: '600'
+                                },
+                                color: '#0B4F6C'
+                            },
+                            ticks: {
+                                backdropColor: 'rgba(255, 255, 255, 0.75)',
+                                color: '#0B4F6C',
+                                stepSize: 2,
+                                beginAtZero: true,
+                                max: 10
+                            }
+                        }
+                    }
+                }
+            });
+
+            const barCtx = document.getElementById('barChart').getContext('2d');
+            new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: [['GitHub', '(Private Repos)'], ['GitLab', '(All Repos)']],
+                    datasets: [{
+                        label: 'Free CI/CD Minutes per Month',
+                        data: [2000, 400],
+                        backgroundColor: [
+                            '#01BAEF',
+                            '#F9A03F'
+                        ],
+                        borderColor: [
+                            '#01BAEF',
+                            '#F9A03F'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: tooltipTitleCallback
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Minutes'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
