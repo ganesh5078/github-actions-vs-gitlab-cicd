@@ -14,28 +14,26 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
-      with:
-        # Fetch all history for deployment action
-        fetch-depth: 0
     
-    - name: Configure Git for Deployment
+    - name: Prepare Deployment Directory
+      # GitHub Pages looks for index.html in the root, so we stage the file correctly.
       run: |
-        git config user.name "GitHub Actions Bot"
-        git config user.email "<>@users.noreply.github.com"
-    
-    - name: Get Infographic Filename
-      # We need the exact file path and name
-      id: file_info
-      run: echo "FILENAME=github_vs_gitlab_cicd_infographic.html" >> $GITHUB_OUTPUT
+        # 1. Create a temporary deployment directory
+        mkdir _site
+        
+        # 2. Copy the HTML file into the directory, renaming it to index.html
+        cp github_vs_gitlab_cicd_infographic.html _site/index.html
+        
+        # 3. Add .nojekyll file to ensure GitHub Pages serves the HTML as-is
+        touch _site/.nojekyll
     
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        # The source file to copy and deploy
-        source: ${{ steps.file_info.outputs.FILENAME }}
-        # The target directory on the gh-pages branch (root)
-        destination: index.html
-        # Set to true to automatically publish the source file to the root of the gh-pages branch
-        publish_dir: .
-        force_orphan: true # Recommended for single-page deployments
+        # The directory containing the index.html file to deploy
+        publish_dir: _site
+        # Forces a clean deployment, deleting all previous files on the gh-pages branch
+        force_orphan: true
+        # Ensures no Jekyll processing interferes with the SPA
+        enable_jekyll: false
