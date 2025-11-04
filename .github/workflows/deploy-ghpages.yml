@@ -15,7 +15,7 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
     
-    - name: Debug: List Files
+    - name: Debug List Files
       # This step will print all files in the repository root to the log. 
       # You can verify the exact file name here if the next step fails.
       run: ls -F $GITHUB_WORKSPACE
