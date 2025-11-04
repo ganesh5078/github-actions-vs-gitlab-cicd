@@ -16,21 +16,19 @@ jobs:
       uses: actions/checkout@v4
     
     - name: Debug List Files
-      # This step will print all files in the repository root to the log. 
-      # You can verify the exact file name here if the next step fails.
+      # This step confirms the file is present in the repository root.
       run: ls -F $GITHUB_WORKSPACE
     
     - name: Prepare Deployment Directory
       run: |
-        # Define the exact file name. Verify this matches what you see in the 'Debug' step.
-        INFOGRAPHIC_FILE="github_action_gitlab_cicd.html"
+        # Define the exact file name.
+        INFOGRAPHIC_FILE="github_vs_gitlab_cicd_infographic.html"
         DEPLOY_DIR="_site"
         
         # 1. Create a temporary deployment directory
         mkdir $DEPLOY_DIR
         
         # 2. Use the absolute path to copy the HTML file, renaming it to index.html
-        # The $GITHUB_WORKSPACE variable guarantees we look in the repository root.
         cp "$GITHUB_WORKSPACE/$INFOGRAPHIC_FILE" "$DEPLOY_DIR/index.html"
         
         # 3. Add .nojekyll file to ensure GitHub Pages serves the HTML as-is
@@ -39,7 +37,7 @@ jobs:
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.MY_GITHUB_SECRET }}
         # The directory containing the index.html file to deploy
         publish_dir: _site
         # Forces a clean deployment, deleting all previous files on the gh-pages branch
