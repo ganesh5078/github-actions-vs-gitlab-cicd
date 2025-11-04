@@ -22,7 +22,7 @@ jobs:
     - name: Prepare Deployment Directory
       run: |
         # Define the exact file name.
-        INFOGRAPHIC_FILE="github_vs_gitlab_cicd_infographic.html"
+        INFOGRAPHIC_FILE="github_action_vs_gitlab_cicd.html"
         DEPLOY_DIR="_site"
         
         # 1. Create a temporary deployment directory
